@@ -1,0 +1,300 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &128608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 474338}
+  - component: {fileID: 11467802}
+  - component: {fileID: 11499044}
+  m_Layer: 0
+  m_Name: QMazeEngine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &474338
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128608}
+  m_LocalRotation: {x: 0, y: -0.38268346, z: 0, w: 0.9238795}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11467802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70d7fa472ebbf64ca0f38e2b9109b04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  piecePack: {fileID: 11499044}
+  mazeWidth: 25
+  mazeHeight: 25
+  mazePieceWidth: 1
+  mazePieceHeight: 1
+  mazeScale: 1
+  startRandomPosition: 0
+  startRandomPositionCount: 0
+  startPositionList: []
+  finishRandomPosition: 0
+  finishRandomPositionCount: 0
+  finishPositionList: []
+  exitPositionList: []
+  obstacleIsNone: 0
+  obstaclePositionList: []
+  onlyPath: 0
+  useSeed: 1
+  seed: 12415
+  inited: 1
+  mazeGeneratedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: qtools.qmaze.QMazeEngine+QMazeGeneratedEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  mazePieceGeneratedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: qtools.qmaze.QMazeEngine+QMazePieceGeneratedEvent, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  mazeGenerateProgressEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: qtools.qmaze.QMazeEngine+QMazeGenerateProgressEvent, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &11499044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7854d6c9b365894eb40b254ce1c1f34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mazePieceArray:
+  - type: 0
+    require: 1
+    use: 0
+    frequency: 0.05
+    geometryList:
+    - {fileID: 106728, guid: 3ca2be667e39a1c47bca06df246f5c3c, type: 2}
+    outputList:
+    - outputDirList: 
+    rotation: 0
+  - type: 1
+    require: 1
+    use: 1
+    frequency: 1
+    geometryList:
+    - {fileID: 104686, guid: 0a6322f34b5f6b24fa50fd259fc5f7ce, type: 2}
+    outputList:
+    - outputDirList: 0000000002000000
+    rotation: 0
+  - type: 2
+    require: 1
+    use: 1
+    frequency: 1
+    geometryList:
+    - {fileID: 108078, guid: f7e75686da31be14ba53299f0dd82f1b, type: 2}
+    outputList:
+    - outputDirList: 01000000
+    rotation: 0
+  - type: 3
+    require: 1
+    use: 0
+    frequency: 0.05
+    geometryList:
+    - {fileID: 130314, guid: 28fc17b047204a048af87a8d844755c8, type: 2}
+    outputList:
+    - outputDirList: 000000000300000002000000
+    rotation: 0
+  - type: 4
+    require: 1
+    use: 1
+    frequency: 1
+    geometryList:
+    - {fileID: 106544, guid: 45bc08fbc0171f54cbaf77f5c80b9c2c, type: 2}
+    outputList:
+    - outputDirList: 0100000002000000
+    rotation: 0
+  - type: 5
+    require: 1
+    use: 0
+    frequency: 0.05
+    geometryList:
+    - {fileID: 133702, guid: 444be292adaaa5842a89375106559eb7, type: 2}
+    outputList:
+    - outputDirList: 00000000010000000200000003000000
+    rotation: 0
+  - type: 6
+    require: 0
+    use: 1
+    frequency: 1
+    geometryList:
+    - {fileID: 190344, guid: 63b3c47a46a71c941a139d5196bed7e1, type: 2}
+    outputList:
+    - outputDirList: 00000000
+    rotation: 0
+  - type: 7
+    require: 0
+    use: 1
+    frequency: 1
+    geometryList:
+    - {fileID: 141176, guid: 51e11754ff817514091788fc234ca9c3, type: 2}
+    outputList:
+    - outputDirList: 00000000
+    rotation: 0
+  - type: 8
+    require: 0
+    use: 0
+    frequency: 0.5
+    geometryList:
+    - {fileID: 167930, guid: c4143d1fd2797c24ab0cd7baf9167ad8, type: 2}
+    outputList:
+    - outputDirList: 0000000003000000
+    - outputDirList: 0100000002000000
+    rotation: 0
+  - type: 9
+    require: 0
+    use: 0
+    frequency: 0.2
+    geometryList:
+    - {fileID: 174906, guid: 45cb2780afb9a93478f0d0a1779ababb, type: 2}
+    outputList:
+    - outputDirList: 0000000002000000
+    - outputDirList: 0300000001000000
+    rotation: 0
+  - type: 10
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 100316, guid: 6b86e8f943e3d9448854f0ad3f190ff9, type: 2}
+    outputList:
+    - outputDirList: 02000000
+    - outputDirList: 01000000
+    rotation: 0
+  - type: 11
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 182994, guid: 91ae71fe1c5422844a455e2575d9be2d, type: 2}
+    outputList:
+    - outputDirList: 00000000
+    - outputDirList: 02000000
+    rotation: 0
+  - type: 12
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 157058, guid: 43b880f17b471c14fbb1ba6c2017d48d, type: 2}
+    outputList:
+    - outputDirList: 01000000
+    - outputDirList: 03000000
+    - outputDirList: 02000000
+    rotation: 0
+  - type: 13
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 119016, guid: 0b7c98a2aa8b6d946ac0d88796271a3e, type: 2}
+    outputList:
+    - outputDirList: 00000000
+    - outputDirList: 02000000
+    - outputDirList: 01000000
+    - outputDirList: 03000000
+    rotation: 0
+  - type: 14
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 165952, guid: bdad494fa08c6d949a304eae545061a1, type: 2}
+    outputList:
+    - outputDirList: 000000000100000002000000
+    - outputDirList: 03000000
+    rotation: 0
+  - type: 15
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 165556, guid: accafb1c72f4b0648ac6be705ebabb09, type: 2}
+    outputList:
+    - outputDirList: 0000000002000000
+    - outputDirList: 03000000
+    rotation: 0
+  - type: 16
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 144538, guid: 3428b446eb734c34294202bd623becac, type: 2}
+    outputList:
+    - outputDirList: 0000000002000000
+    - outputDirList: 01000000
+    - outputDirList: 03000000
+    rotation: 0
+  - type: 17
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 112342, guid: d45f018d6a5c5f94388bd86ecde30683, type: 2}
+    outputList:
+    - outputDirList: 0100000002000000
+    - outputDirList: 03000000
+    rotation: 0
+  - type: 18
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 131026, guid: 42f0bc6f0706d334283d8e256313fd2d, type: 2}
+    outputList:
+    - outputDirList: 0100000002000000
+    - outputDirList: 00000000
+    rotation: 0
+  - type: 19
+    require: 0
+    use: 0
+    frequency: 0.1
+    geometryList:
+    - {fileID: 173532, guid: 037052be98976b146bb9a09876ebdbd7, type: 2}
+    outputList:
+    - outputDirList: 0100000002000000
+    - outputDirList: 03000000
+    - outputDirList: 00000000
+    rotation: 0
+  inited: 1
+  inited2: 0
+  dragAndDropPieceGeometryArray: []
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 128608}
+  m_IsPrefabParent: 1
