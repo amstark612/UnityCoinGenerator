@@ -9,34 +9,48 @@ public class CoinGenerator : MonoBehaviour {
     [SerializeField]
     public float distanceBetweenCoins = 4.0f;
     
-    Transform start, end;
-    Transform[] positions;
-
-    void Awake() {
-        start = transform.Find("Start");
-        end = transform.Find("End");
-    }
+    Transform[] cornerPoints;
 
     public void GenerateCoins() {
-        Vector3 direction = (end.position - start.position).normalized;
-        float angle = 360 - Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
-        float totalDistance = Vector3.Distance(start.position, end.position);
-        int numCoins = (int)(totalDistance / distanceBetweenCoins) + 1;
+        // for getting total linear distance
+        float totalLinearDistance = 0f;
 
-        positions = new Transform[numCoins];
+        // get positions of all children as array
+        cornerPoints = GetComponentsInChildren<Transform>();
 
-        for (int i = 0; i < numCoins; i++) {
-            Vector3 position = start.position + i * distanceBetweenCoins * direction;
-            Instantiate(coinPrefab, position, Quaternion.Euler(0, angle, 0));
+        // create new empty GameObject for easier exporting of coins
+        GameObject parent = new GameObject("Coins");
+
+        // skip first transform b/c it's the parent transform
+        for (int index = 1; index < cornerPoints.Length - 1; index++) {
+            Transform start = cornerPoints[index];
+            Transform end = cornerPoints[index + 1];
+
+            Vector3 direction = (end.position - start.position).normalized;
+            float angle = 360 - Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
+            float totalDistance = Vector3.Distance(start.position, end.position);
+            totalLinearDistance += totalDistance;       // for route-planning purposes
+            int numCoins = (int)(totalDistance / distanceBetweenCoins) + 1;
+
+            Transform[] coinPositions = new Transform[numCoins];
+
+            for (int i = 0; i < numCoins; i++) {
+                Vector3 position = start.position + i * distanceBetweenCoins * direction;
+                GameObject coin = Instantiate(coinPrefab, position, Quaternion.Euler(0, angle, 0));
+                coin.transform.SetParent(parent.transform);
+            }
         }
+
+        Debug.Log("Distance: " + totalLinearDistance + ", Number of coins: " + parent.transform.childCount);     // for route-planning purposes
     }
 
     private void OnDrawGizmos() {
         #if UNITY_EDITOR
-            start = transform.Find("Start");
-            end = transform.Find("End");
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(start.position, end.position);
+            // skip first transform b/c it's the parent transform
+            for (int index = 1; index < cornerPoints.Length - 1; index++){
+                Gizmos.DrawLine(cornerPoints[index].position, cornerPoints[index + 1].position);
+            }
         #endif
     }
 }
