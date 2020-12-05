@@ -8,8 +8,12 @@ public class CoinGenerator : MonoBehaviour {
     public GameObject coinPrefab;
     [SerializeField]
     public float distanceBetweenCoins = 4.0f;
-    
+
     Transform[] cornerPoints;
+
+    void Awake() {
+        // cornerPoints = GetComponentsInChildren<Transform>();
+    }
 
     public void GenerateCoins() {
         // for getting total linear distance
@@ -41,14 +45,22 @@ public class CoinGenerator : MonoBehaviour {
             }
         }
 
-        Debug.Log("Distance: " + totalLinearDistance + ", Number of coins: " + parent.transform.childCount);     // for route-planning purposes
+        // for route planning purposes
+        Debug.Log("Distance: " + totalLinearDistance + ", Number of coins: " + parent.transform.childCount);
+        double seconds = totalLinearDistance / 2.5;
+        int min = (int) (seconds / 60);
+        Debug.Log("Min time to completion: " + min + " min " + (int) (seconds - min * 60) + " sec");
     }
 
     private void OnDrawGizmos() {
         #if UNITY_EDITOR
             Gizmos.color = Color.yellow;
+
+            // get positions of all children as array
+            cornerPoints = GetComponentsInChildren<Transform>();
+
             // skip first transform b/c it's the parent transform
-            for (int index = 1; index < cornerPoints.Length - 1; index++){
+            for (int index = 1; index < cornerPoints.Length - 1; index++) {
                 Gizmos.DrawLine(cornerPoints[index].position, cornerPoints[index + 1].position);
             }
         #endif
