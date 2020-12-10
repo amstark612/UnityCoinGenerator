@@ -9,10 +9,20 @@ public class CoinGenerator : MonoBehaviour {
     [SerializeField]
     public float distanceBetweenCoins = 4.0f;
 
+    private GameObject parent;
     Transform[] cornerPoints;
 
-    void Awake() {
-        // cornerPoints = GetComponentsInChildren<Transform>();
+    internal class Path {
+        internal Vector3 start, direction;
+        internal float angle;
+        internal float distance;
+
+        internal Path(Vector3 start, Vector3 direction, float angle, float distance) {
+            this.start = start;
+            this.direction = direction;
+            this.angle = angle;
+            this.distance = distance;
+        }
     }
 
     public void GenerateCoins() {
@@ -22,8 +32,14 @@ public class CoinGenerator : MonoBehaviour {
         // get positions of all children as array
         cornerPoints = GetComponentsInChildren<Transform>();
 
+        // for storing path directions & angles
+        Path[] paths = new Path[cornerPoints.Length - 2];
+
+        // for route planning purposes
+        List<float> distances = new List<float>();
+
         // create new empty GameObject for easier exporting of coins
-        GameObject parent = new GameObject("Coins");
+        parent = new GameObject("Coins");
 
         // skip first transform b/c it's the parent transform
         for (int index = 1; index < cornerPoints.Length - 1; index++) {
@@ -32,17 +48,29 @@ public class CoinGenerator : MonoBehaviour {
 
             Vector3 direction = (end.position - start.position).normalized;
             float angle = 360 - Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
-            float totalDistance = Vector3.Distance(start.position, end.position);
-            totalLinearDistance += totalDistance;       // for route-planning purposes
-            int numCoins = (int)(totalDistance / distanceBetweenCoins) + 1;
+            float distance = Vector3.Distance(start.position, end.position);
 
-            Transform[] coinPositions = new Transform[numCoins];
+            paths[index - 1] = new Path(start.position, direction, angle, distance);
 
-            for (int i = 0; i < numCoins; i++) {
-                Vector3 position = start.position + i * distanceBetweenCoins * direction;
-                GameObject coin = Instantiate(coinPrefab, position, Quaternion.Euler(0, angle, 0));
-                coin.transform.SetParent(parent.transform);
-            }
+            totalLinearDistance += distance;       // for route-planning purposes
+
+
+            // int numCoins = (int)(distance / distanceBetweenCoins) + 1;
+
+            // Transform[] coinPositions = new Transform[numCoins];
+
+            // for (int i = 0; i < numCoins; i++) {
+            //     Vector3 position = start.position + i * distanceBetweenCoins * direction;
+            //     GameObject coin = Instantiate(coinPrefab, position, Quaternion.Euler(0, angle, 0));
+            //     coin.transform.SetParent(parent.transform);
+            // }
+        }
+
+        int totalNumCoins = (int) (totalLinearDistance / distanceBetweenCoins) + 1;
+        float ratio = totalNumCoins / totalLinearDistance;
+
+        foreach (Path path in paths) {
+            GenerateSegmentCoins(ratio, path);
         }
 
         // for route planning purposes
@@ -64,5 +92,20 @@ public class CoinGenerator : MonoBehaviour {
                 Gizmos.DrawLine(cornerPoints[index].position, cornerPoints[index + 1].position);
             }
         #endif
+    }
+
+    private void GenerateSegmentCoins(float ratio, Path path) {
+        // number of coins for this segment in proportion to segment distance vs total distance
+        int numCoins = (int) System.Math.Round(path.distance * ratio);
+
+        float distBetweenCoins = path.distance / numCoins;
+
+        Debug.Log(distBetweenCoins);
+
+        for (int i = 0; i < numCoins; i++) {
+            Vector3 position = path.start + i * distBetweenCoins * path.direction;
+            GameObject coin = Instantiate(coinPrefab, position, Quaternion.Euler(0, path.angle, 0));
+            coin.transform.SetParent(parent.transform);
+        }
     }
 }
