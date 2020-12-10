@@ -11,7 +11,7 @@ public class CoinGenerator : MonoBehaviour {
 
     private GameObject parent;
     Transform[] cornerPoints;
-    private float offset = 0f;        // for offsetting beginning of paths so all coins are equidistant
+    private float offset;        // for offsetting beginning of paths so all coins are equidistant
 
     internal class Path {
         internal Vector3 direction;
@@ -34,6 +34,8 @@ public class CoinGenerator : MonoBehaviour {
 
         // create new empty GameObject for easier exporting of coins
         parent = new GameObject("Coins");
+
+        offset = 0f;
 
         // skip first transform b/c it's the parent transform
         for (int index = 1; index < cornerPoints.Length - 1; index++) {
@@ -59,24 +61,30 @@ public class CoinGenerator : MonoBehaviour {
     }
 
     private void GenerateCoinsPerSegment(Path path, Vector3 startPosition) {
-        float distance = offset - distanceBetweenCoins;     // -dist between coins to prevent off by one error (after dropping first coin, distance should = 0)
-
-        int i = 0;
-        while (true) {
-                Vector3 position = startPosition + i * distanceBetweenCoins * path.direction;
-                GameObject coin = Instantiate(coinPrefab, position, Quaternion.Euler(0, path.angle, 0));
-                coin.transform.SetParent(parent.transform);
-
-                distance += distanceBetweenCoins;
-                i++;
-
-                if (distance + distanceBetweenCoins >= path.distance) {
-                    break;
-                }
+        if (offset > path.distance) {
+            offset -= path.distance;
         }
+        else {
+            float distance = offset - distanceBetweenCoins;     // -dist between coins to prevent off by one error (after dropping first coin, distance should = 0)
 
-        float remainder = path.distance - distance;
-        offset = distanceBetweenCoins - remainder;
+            int i = 0;
+            while (true) {
+                    Vector3 position = startPosition + i * distanceBetweenCoins * path.direction;
+                    GameObject coin = Instantiate(coinPrefab, position, Quaternion.Euler(0, path.angle, 0));
+                    coin.transform.SetParent(parent.transform);
+                    coin.name = "Coin";
+
+                    distance += distanceBetweenCoins;
+                    i++;
+
+                    if (distance + distanceBetweenCoins >= path.distance) {
+                        break;
+                    }
+            }
+
+            float remainder = path.distance - distance;
+            offset = distanceBetweenCoins - remainder;
+        }
     }
 
     private void OnDrawGizmos() {
