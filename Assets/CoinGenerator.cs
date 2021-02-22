@@ -34,6 +34,7 @@ public class CoinGenerator : MonoBehaviour {
 
         // create new empty GameObject for easier exporting of coins
         parent = new GameObject("Coins");
+        parent.transform.position = new Vector3(0, 0, 0);
 
         offset = 0f;
 
